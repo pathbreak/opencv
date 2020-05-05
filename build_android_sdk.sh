@@ -27,7 +27,14 @@ export MODULES_LIST='imgproc,features2d,xfeatures2d'
 export BUILD_TYPE=MinSizeRel
 
 # Enable or disable OpenCV capabilities, features and libraries.
-export ANDROID_CMAKE_FLAGS="-DCV_TRACE=OFF -DBUILD_EXAMPLES=OFF -DBUILD_ANDROID_EXAMPLES=OFF -DBUILD_JPEG=ON -DBUILD_PNG=ON -DBUILD_OPENEXR=OFF -DBUILD_TIFF=OFF -DBUILD_WEBP=OFF -DBUILD_JASPER=OFF -DBUILD_ITT=OFF -DBUILD_PACKAGE=OFF -DBUILD_PERF_TESTS=OFF -DBUILD_PROTOBUF=OFF -DBUILD_TBB=OFF -DBUILD_TESTS=OFF -DWITH_ADE=OFF -DWITH_CAROTENE=OFF -DWITH_IMGCODEC_HDR=OFF -DWITH_IMGCODEC_PFM=OFF -DWITH_IMGCODEC_PXM=OFF -DWITH_IMGCODEC_SUNRASTER=OFF -DWITH_ITT=OFF  -DWITH_JASPER=OFF -DWITH_JPEG=ON -DWITH_OPENEXR=OFF -DWITH_PNG=ON -DWITH_PROTOBUF=OFF  -DWITH_PTHREADS_PF=ON -DWITH_QUIRC=OFF -DWITH_TIFF=OFF -DWITH_WEBP=OFF"
+export ANDROID_CMAKE_FLAGS="-DCV_TRACE=OFF -DBUILD_EXAMPLES=OFF -DBUILD_ANDROID_EXAMPLES=OFF \
+-DBUILD_JPEG=ON -DBUILD_PNG=ON -DBUILD_OPENEXR=OFF -DBUILD_TIFF=OFF -DBUILD_WEBP=OFF \
+-DBUILD_JASPER=OFF -DBUILD_ITT=OFF -DBUILD_PACKAGE=OFF -DBUILD_PERF_TESTS=OFF \
+-DBUILD_PROTOBUF=OFF -DBUILD_TBB=OFF -DBUILD_TESTS=OFF -DWITH_ADE=OFF -DWITH_CAROTENE=OFF \
+-DWITH_IMGCODEC_HDR=OFF -DWITH_IMGCODEC_PFM=OFF -DWITH_IMGCODEC_PXM=OFF \
+-DWITH_IMGCODEC_SUNRASTER=OFF -DWITH_ITT=OFF  -DWITH_JASPER=OFF -DWITH_JPEG=ON \
+-DWITH_OPENEXR=OFF -DWITH_PNG=ON -DWITH_PROTOBUF=OFF  -DWITH_PTHREADS_PF=ON -DWITH_QUIRC=OFF \
+-DWITH_TIFF=OFF -DWITH_WEBP=OFF"
 
 
 
@@ -62,11 +69,13 @@ if [ ! -f "$OPENCV_SRC/opencv/CMakeLists.txt" ]; then
   exit 1
 fi
 if [ ! -d "$OPENCV_SRC/opencv_contrib" ]; then
-  printf "\nERROR: opencv_contrib source not found under $0. Clone https://github.com/opencv/opencv_contrib or a fork under $0.\n"
+  printf "\nERROR: opencv_contrib source not found under $0. Clone \
+  https://github.com/opencv/opencv_contrib or a fork under $0.\n"
   exit 1
 fi
 if [ ! -d "$OPENCV_SRC/opencv_contrib/modules" ]; then
-  printf "\nERROR: opencv_contrib source not found under $0. Clone https://github.com/opencv/opencv_contrib or a fork under $0.\n"
+  printf "\nERROR: opencv_contrib source not found under $0. Clone \
+  https://github.com/opencv/opencv_contrib or a fork under $0.\n"
   exit 1
 fi
 printf "\nSource directory: $OPENCV_SRC\n"
@@ -105,7 +114,8 @@ if [ ! -d "$ANDROID_SDK_ROOT" ]; then
 fi
 
 if [ ! -d "$ANDROID_SDK_ROOT/cmake" ]; then
-  printf "\nERROR: Android SDK not found under $ANDROID_SDK_ROOT. Edit this script and set ANDROID_SDK_ROOT at top to point to your Android SDK root directory.\n"
+  printf "\nERROR: Android SDK not found under $ANDROID_SDK_ROOT. Edit this script and \
+  set ANDROID_SDK_ROOT at top to point to your Android SDK root directory.\n"
   exit 1
 fi
 
@@ -168,7 +178,12 @@ printf "\nModules that'll be built: $BUILD_LIST\n"
 
 # Set build flags common to all architectures.
 
-export ANDROID_CMAKE_FLAGS="-GNinja -DCMAKE_MAKE_PROGRAM=$CMAKE_DIR/ninja -DBUILD_WITH_DEBUG_INFO=OFF   -DINSTALL_CREATE_DISTRIB=ON -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DBUILD_FAT_JAVA_LIB=OFF -DCMAKE_TOOLCHAIN_FILE=$ANDROID_NDK/build/cmake/android.toolchain.cmake -DANDROID_SDK_TOOLS_VERSION=26.1.1 -DANDROID_STL=c++_shared -DANDROID_TOOLCHAIN=clang -DOPENCV_EXTRA_MODULES_PATH=$OPENCV_SRC/opencv_contrib/modules -DBUILD_LIST=$BUILD_LIST -DBUILD_ANDROID_PROJECTS=ON $ANDROID_CMAKE_FLAGS"
+export ANDROID_CMAKE_FLAGS="-GNinja -DCMAKE_MAKE_PROGRAM=$CMAKE_DIR/ninja -DBUILD_WITH_DEBUG_INFO=OFF \
+-DINSTALL_CREATE_DISTRIB=ON -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DBUILD_FAT_JAVA_LIB=OFF \
+-DCMAKE_TOOLCHAIN_FILE=$ANDROID_NDK/build/cmake/android.toolchain.cmake -DANDROID_SDK_TOOLS_VERSION=26.1.1 \
+-DANDROID_STL=c++_shared -DANDROID_TOOLCHAIN=clang \
+-DOPENCV_EXTRA_MODULES_PATH=$OPENCV_SRC/opencv_contrib/modules -DBUILD_LIST=$BUILD_LIST \
+-DBUILD_ANDROID_PROJECTS=ON $ANDROID_CMAKE_FLAGS"
 
 printf "\n\n$ANDROID_CMAKE_FLAGS\n\n"
 
@@ -179,7 +194,8 @@ printf "\n\n\n\nBUILDING FOR ARMEABI-V7A...\n\n\n\n"
 
 cd "$BUILD_DIR_V7A"
 
-"$CMAKE_DIR"/cmake $ANDROID_CMAKE_FLAGS -DANDROID_ABI='armeabi-v7a with NEON' -DANDROID_PLATFORM_ID=2 $OPENCV_SRC/opencv
+"$CMAKE_DIR"/cmake $ANDROID_CMAKE_FLAGS -DANDROID_ABI='armeabi-v7a with NEON' \
+     -DANDROID_PLATFORM_ID=2 $OPENCV_SRC/opencv
 if [ $? -ne 0 ]; then
   printf "\nError: CMake failed\n"
   exit
@@ -204,7 +220,8 @@ printf "\n\n\n\nBUILDING FOR ARM64-V8A...\n\n\n\n"
 
 cd "$BUILD_DIR_V8A"
 
-"$CMAKE_DIR"/cmake  $ANDROID_CMAKE_FLAGS -DANDROID_ABI='arm64-v8a' -DANDROID_PLATFORM_ID=3  $OPENCV_SRC/opencv
+"$CMAKE_DIR"/cmake  $ANDROID_CMAKE_FLAGS -DANDROID_ABI='arm64-v8a' \
+      -DANDROID_PLATFORM_ID=3  $OPENCV_SRC/opencv
 if [ $? -ne 0 ]; then
   printf "\nError: CMake failed\n"
   exit
