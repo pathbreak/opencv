@@ -1,0 +1,2 @@
+rootProject.name='GMSTest'
+include ':app', 'opencv430cust'
