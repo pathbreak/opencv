@@ -10,7 +10,7 @@ an SDK which is only 15MB in size and works only on ARM architectures.
 ## Summary of modifications
 
 - A build script 'build_android_sdk.sh' has been added for convenient automated builds of this O4A SDK.
-  All you need is a JDK and Android SDK. The build process is described in [Building](#building).
+  All you need is a JDK and Android SDK. The build process is described in [Building](#building-and-customizing-this-sdk).
   You can create your own customized versions by running the build script.
   It's been tested on Ubuntu and Ubuntu Docker containers, but it should work on other Linux distros.
 
@@ -28,7 +28,7 @@ an SDK which is only 15MB in size and works only on ARM architectures.
   Only JPEG and PNG file support are included by default.
 
 - It's possible to include additional modules or libraries, or exclude existing ones by changing an environment
-  variable in the build script. See [Building](#building).
+  variable in the build script. See [Building](#building-and-customizing-this-sdk).
 
 - Three test projects have been added under *samples/android* to test the custom SDK:
   - OpenCVTest is a simple example to test camera interfacing and basic image processing.
@@ -81,7 +81,7 @@ To build this SDK, you'll need an Ubuntu system or virtual machine or container.
 On Windows and Mac, use virtualization software like VirtualBox or VMWare, or container
 software like Docker CE to create an Ubuntu environment.
 
-#1 Install prerequisites.
+**#1 Install prerequisites**
 
    + JDK (Required)
      Java 8 is recommended. Java 11 may not work due to some conflicts with Android NDK's Gradle version.
@@ -120,7 +120,7 @@ software like Docker CE to create an Ubuntu environment.
      ```
 
 
-#2 Clone this fork and branch to your local machine.
+**#2 Clone this fork and branch to your local machine**
    Also clone my contribs fork from https://github.com/pathbreak/opencv_contrib
 
    ```bash
@@ -137,12 +137,17 @@ software like Docker CE to create an Ubuntu environment.
    git checkout android430custom
    ```
 
-#3 Under *opencv/*, there's a shell script named **build_android_sdk.sh**. Open that file in a text editor.
+
+
+**#3 Edit the build script**
+   Under *opencv/*, there's a shell script named **build_android_sdk.sh**. Open that file in a text editor.
    Near the top is an area where environment variables can be set to match your build machine.
 
    ![](doc/images/readme/env_vars.png)
 
-#4 Set the environment variables:
+
+
+**#4 Set the environment variables**
 
    + ANDROID_SDK_ROOT : Path where your Android SDK is installed.
 
@@ -157,9 +162,10 @@ software like Docker CE to create an Ubuntu environment.
    + ANDROID_CMAKE_FLAGS : You can enable or disable any OpenCV capabilities and libraries from here. By default,
      PNG and JPEG format support are included. Everything else is disabled by default to minimize size of the SDK.
 
-#5 Save the changes.
+**#5 Save the changes.**
 
-#6 Run the script, passing in the path of the source root directory (the directory that contains *opencv/* and *opencv_contrib/*)
+**#6 Run the script**
+   Pass in the path of the source root directory (the directory that contains *opencv/* and *opencv_contrib/*)
    and a build directory where build outputs are stored while the builds run.
 
    ```bash
@@ -170,11 +176,12 @@ software like Docker CE to create an Ubuntu environment.
 
    ```
 
-#7 If the script finds some environment errors, it alerts you with suggestions of how to proceeed.
+   If the script finds some environment errors, it alerts you with suggestions of how to proceeed.
 
-#8 If there are no errors, the script automatically builds OpenCV for armeabi-v7a and arm64-v8a architectures.
+   If there are no errors, the script automatically builds OpenCV for armeabi-v7a and arm64-v8a architectures.
 
-#9 The built SDK will be created under the specified build directory (*~/androidbuild* in our example) and
+**#7 Build output**
+   The built SDK will be created under the specified build directory (*~/androidbuild* in our example) and
    will be named **OpenCV-<version>-android-custom-sdk.zip**.
    You can use it as described in [How to use this SDK with your Android apps](#how-to-use-this-sdk-with-your-android0-apps).
 
